@@ -1,10 +1,10 @@
 /* overwrite to use full black for enabled buttons 覆盖使启用按钮使用全黑 */
-.x-btn-inner-default-toolbar-small {
+/*.x-btn-inner-default-toolbar-small {
     font: 300 12px/16px helvetica, arial, verdana, sans-serif;
     color: #000;
     padding: 0 5px;
     max-width: 100%;
-}
+}*/
 
 /* add missing class for context menu header 为上下文菜单标题添加缺少的类*/
 .x-menu-header {
@@ -576,7 +576,7 @@ table.osds td:first-of-type {
     background-color: #555;
 }
 
-/*#inputpanel-1103-outerCt  #container-1104  {
+#inputpanel-1103-outerCt  #container-1104  {
      float: right;
     margin-right: -10px!important;
 }
@@ -627,4 +627,3 @@ table.osds td:first-of-type {
 	height: 2.0em!important;
 	}
 
-*/
