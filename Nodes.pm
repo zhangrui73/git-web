@@ -273,9 +273,9 @@ __PACKAGE__->register_method({
 
 	my $meminfo = PVE::ProcFSTools::read_meminfo();
 	$res->{memory} = {
-	    free => $meminfo->{memfree},
-	    total => $meminfo->{memtotal},
-	    used => $meminfo->{memused},
+	    free => $meminfo->{memfree}, #空闲的
+	    total => $meminfo->{memtotal}, #全部
+	    used => $meminfo->{memused}, #被使用过的
 	};
 	
 	$res->{ksm} = {
@@ -290,7 +290,7 @@ __PACKAGE__->register_method({
 
 	$res->{pveversion} = PVE::pvecfg::package() . "/" .
 	    PVE::pvecfg::version_text();
-    $res->{thermalstate} = `sensors`;
+    $res->{thermalstate} = `sensors`; #不会向屏幕打印结果14591
 	my $dinfo = df('/', 1);     # output is bytes
 
 	$res->{rootfs} = {
