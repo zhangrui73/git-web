@@ -8805,7 +8805,7 @@ Ext.define('PVE.window.Settings', {
 	    },
 	    'button[name=reset]': {
 		click: function () {
-		    var blacklist = ['GuiCap', 'loginlogin-username', 'dash-storages'];
+		    var blacklist = ['GuiCap', 'login-username', 'dash-storages'];
 		    var sp = Ext.state.Manager.getProvider();
 		    var state;
 		    for (state in sp.state) {
@@ -15888,9 +15888,8 @@ Ext.define('PVE.node.StatusView', {
     colspan: 2,
     printBar: false,
     title: gettext('CPU 温度'),
-    textField: 'thermalstate',//293
+    textField: 'thermalstate',
 	renderer:function(value){
-		//Core 0: +51.0°C (high = +90.0°C, crit = +90.0°C)
         const c0 = value.match(/Core 0.*?\+([\d\.]+)Â/)[1];
         const c1 = value.match(/Core 1.*?\+([\d\.]+)Â/)[1];
         const c2 = value.match(/Core 2.*?\+([\d\.]+)Â/)[1];
@@ -16031,8 +16030,7 @@ Ext.define('PVE.node.Summary', {
 			{
 			    xtype: 'proxmoxRRDChart',
 			    title: gettext('CPU usage'),
-			    //fields: ['cpu','iowait'],
-			    fields: ['cpu','wait'],
+			    fields: ['cpu','iowait'],
 			    fieldTitles: [gettext('CPU usage'), gettext('IO delay')],
 			    store: rrdstore
 			},
@@ -16491,8 +16489,8 @@ Ext.define('pve-certificate', {
 });
 
 Ext.define('PVE.node.Certificates', {
-    extend: 'Ext.grid.Panel',
-    xtype: 'pveCertView',
+    extend: 'Ext.grid.Panel', //指定内的扩展类
+    xtype: 'pveCertView', //用来声明当前配置对象使用的类
 
     tbar: [
 	{
@@ -17138,7 +17136,7 @@ Ext.define('PVE.node.Config', {
 	    dangerous: true,
 	    confirmMsg: Ext.String.format(gettext("Shutdown node '{0}'?"), nodename),
 	    handler: function() {
-		node_command('shutdown');.
+		node_command('shutdown');
 	    },
 	    iconCls: 'fa fa-power-off'
 	});
@@ -17429,13 +17427,13 @@ Ext.define('PVE.node.Config', {
 		nodename: nodename,
 		xtype: 'proxmoxNodeTasks'
 	    },
-	   /* {
-		title: gettext('Subscription'),
+	    {
+		/*title: gettext('Subscription'),
 		iconCls: 'fa fa-support',
 		itemId: 'support',
 		xtype: 'pveNodeSubscription',
-		nodename: nodename
-	    }*/
+		nodename: nodename*/
+	    }
 	);
 
 	me.callParent();
