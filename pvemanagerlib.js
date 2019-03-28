@@ -326,8 +326,10 @@ var pveOnlineHelpInfo = {
 Ext.ns('PVE');
 
 // avoid errors related to Accessible Rich Internet Applications
+//避免与可访问的富Internet应用程序相关的错误
 // (access for people with disabilities)
 // TODO reenable after all components are upgraded
+//所有组件升级后，TODO将重新启用
 Ext.enableAria = false;
 Ext.enableAriaButtons = false;
 Ext.enableAriaPanels = false;
@@ -347,12 +349,13 @@ Ext.Ajax.defaultHeaders = {
 Ext.define('PVE.Utils', { utilities: {
 
     // this singleton contains miscellaneous utilities
+	//这个单例包含各种实用程序
 
     toolkit: undefined, // (extjs|touch), set inside Toolkit.js
 
-    bus_match: /^(ide|sata|virtio|scsi)\d+$/,
+    bus_match: /^(ide|sata|virtio|scsi)\d+$/, //匹配 ide和sata是最常用的两种磁盘格式，基本每个系统上都会有
 
-    log_severity_hash: {
+    log_severity_hash: { //按照日志的等级来说
 	0: "panic",
 	1: "alert",
 	2: "critical",
@@ -363,16 +366,16 @@ Ext.define('PVE.Utils', { utilities: {
 	7: "debug"
     },
 
-    support_level_hash: {
-	'c': gettext('Community'),
-	'b': gettext('Basic'),
-	's': gettext('Standard'),
-	'p': gettext('Premium') //保险费
+    support_level_hash: { //维持等级
+	'c': gettext('Community'), //公共的
+	'b': gettext('Basic'), //基本的
+	's': gettext('Standard'), //标准的
+	'p': gettext('Premium') //保险费，额外的
     },
 
    // noSubKeyHtml: 'You do not have a valid subscription for this server. Please visit <a target="_blank" href="http://www.proxmox.com/products/proxmox-ve/subscription-service-plans">www.proxmox.com</a> to get a list of available options.',
 
-    kvm_ostypes: {
+    kvm_ostypes: {  //kvm的系统类型
 	'Linux': [
 	    { desc: '4.X/3.X/2.6 Kernel', val: 'l26' },
 	    { desc: '2.4 Kernel', val: 'l24' }
@@ -393,7 +396,7 @@ Ext.define('PVE.Utils', { utilities: {
 	]
     },
 
-    get_health_icon: function(state, circle) {   //state 状态 circle 种类
+    get_health_icon: function(state, circle) {   //state国家 circle 旋转，圆
 	if (circle === undefined) {
 	    circle = false;
 	}
@@ -417,7 +420,7 @@ Ext.define('PVE.Utils', { utilities: {
 	}
 
 	if (circle) {
-	    icon += '-circle';
+	    icon += '-circle'; //icon=icon+ -circle
 	}
 
 	return icon;
@@ -431,7 +434,7 @@ Ext.define('PVE.Utils', { utilities: {
 
     render_ceph_health: function(healthObj) {
 	var state = {
-	    iconCls: PVE.Utils.get_health_icon(),  //菜单项的小图标
+	    iconCls: PVE.Utils.PVE.Utils.get_health_icon(),  //菜单项的小图标 icoCls直接指定样式表
 	    text: ''
 	};
 
@@ -536,11 +539,11 @@ Ext.define('PVE.Utils', { utilities: {
 	}
 
 	delete props.enabled;
-	var agentstring = Proxmox.Utils.enabledText;
+	var agentstring = Proxmox.Utils.enabledText;  
 
 	Ext.Object.each(props, function(key, value) {
 	    var keystring = '' ;
-	    agentstring += ', ' + key + ': ';
+	    agentstring += ', ' + key + ': '; //agentstring=Proxmox.Utils.enabledText,key:
 
 	    if (PVE.Parser.parseBoolean(value)) {
 		agentstring += Proxmox.Utils.enabledText;
@@ -584,8 +587,8 @@ Ext.define('PVE.Utils', { utilities: {
 	}
     },
 
-    // fixme: auto-generate this
-    // for now, please keep in sync with PVE::Tools::kvmkeymaps
+    // fixme: auto-generate this  描述需要修复的代码：自动生成
+    // for now, please keep in sync with PVE::Tools::kvmkeymaps 现在，请与PVE::Tools::kvmkeymaps保持同步
     kvm_keymaps: {
 	//ar: 'Arabic',
 	da: 'Danish',
@@ -740,7 +743,7 @@ Ext.define('PVE.Utils', { utilities: {
 	return msg;
     },
 
-    format_duration_short: function(ut) {
+    format_duration_short: function(ut) { //格式化持续时长
 
 	if (ut < 60) {
 	    return ut.toFixed(1) + 's';
@@ -765,7 +768,7 @@ Ext.define('PVE.Utils', { utilities: {
     vztmplText: gettext('Container template'),
     isoImageText: gettext('ISO image'),
     containersText: gettext('Container'),
-
+ 	//存储约束
     storageSchema: {
 	dir: {
 	    name: Proxmox.Utils.directoryText,
@@ -861,7 +864,7 @@ Ext.define('PVE.Utils', { utilities: {
     },
 
     format_ha: function(value) {
-	var text = Proxmox.Utils.noneText;
+	var text = Proxmox.Utils.noneText; 
 
 	if (value.managed) {
 	    text = value.state || Proxmox.Utils.noneText;
@@ -895,9 +898,9 @@ Ext.define('PVE.Utils', { utilities: {
 
     render_storage_content: function(value, metaData, record) {
 	var data = record.data;
-	if (Ext.isNumber(data.channel) &&
-	    Ext.isNumber(data.id) &&
-	    Ext.isNumber(data.lun)) {
+	if (Ext.isNumber(data.channel) && //数据通道
+	    Ext.isNumber(data.id) &&  //
+	    Ext.isNumber(data.lun)) {  //逻辑单元号
 	    return "CH " +
 		Ext.String.leftPad(data.channel,2, '0') +
 		" ID " + data.id + " LUN " + data.lun;
@@ -911,7 +914,7 @@ Ext.define('PVE.Utils', { utilities: {
 
     render_cpu: function(value, metaData, record, rowIndex, colIndex, store) {
 
-	if (!(record.data.uptime && Ext.isNumeric(value))) {
+	if (!(record.data.uptime && Ext.isNumeric(value))) { //uptime 系统的正常运行时间
 	    return '';
 	}
 
@@ -955,7 +958,7 @@ Ext.define('PVE.Utils', { utilities: {
 	return PVE.Utils.format_duration_short(value);
     },
 
-    calculate_mem_usage: function(data) {
+    calculate_mem_usage: function(data) {  //内存使用情况
 	if (!Ext.isNumeric(data.mem) ||
 	    data.maxmem === 0 ||
 	    data.uptime < 1) {
@@ -1000,8 +1003,9 @@ Ext.define('PVE.Utils', { utilities: {
 	return PVE.Utils.render_size(value);
     },
 
-    calculate_disk_usage: function(data) {
+    calculate_disk_usage: function(data) {  //计算磁盘使用情况
 
+	//未使用过磁盘
 	if (!Ext.isNumeric(data.disk) ||
 	    data.type === 'qemu' ||
 	    (data.type === 'lxc' && data.uptime === 0) ||
@@ -1009,7 +1013,7 @@ Ext.define('PVE.Utils', { utilities: {
 	    return -1;
 	}
 
-	return (data.disk / data.maxdisk);
+	return (data.disk / data.maxdisk); // 磁盘数/磁盘的最大使用容量
     },
 
     render_disk_usage_percent: function(value, metaData, record, rowIndex, colIndex, store) {
@@ -1017,7 +1021,7 @@ Ext.define('PVE.Utils', { utilities: {
 	    return '';
 	}
 
-	return (value * 100).toFixed(1) + " %";
+	return (value * 100).toFixed(1) + " %"; //保留一位小数
     },
 
     render_disk_usage: function(value, metaData, record, rowIndex, colIndex, store) {
@@ -1042,9 +1046,10 @@ Ext.define('PVE.Utils', { utilities: {
 
 	if (type === 'type') {
 	    // for folder view
-	    objType = record.groupbyid;
-	} else if (record.template) {
-	    // templates
+	    
+		objType = record.groupbyid;
+	} else if (record.template) { 
+	    // templates 模板
 	    objType = 'template';
 	    status = type;
 	} else {
@@ -1083,9 +1088,9 @@ Ext.define('PVE.Utils', { utilities: {
     /* render functions for new status panel */
 
     render_usage: function(val) {
-	return (val*100).toFixed(2) + '%';
+	return (val*100).toFixed(2) + '%'; 
     },
-
+//Summary --cpu usage:
     render_cpu_usage: function(val, max) {
 	return Ext.String.format(gettext('{0}% of {1}') +
 	    ' ' + gettext('CPU(s)'), (val*100).toFixed(2), max);
@@ -1107,7 +1112,7 @@ Ext.define('PVE.Utils', { utilities: {
 
     /* this is different for nodes */
     render_node_size_usage: function(record) {
-	return PVE.Utils.render_size_usage(record.used, record.total);
+	return PVE.Utils.render_size_usage(record.used, record.total); //被用过的，全部的s
     },
 
     render_optional_url: function(value) {
@@ -1126,7 +1131,7 @@ Ext.define('PVE.Utils', { utilities: {
 		    names.push(val);
 		}
 	    });
-	    return names.join('<br>');
+	    return names.join('<br>'); //br 换行符
 	}
 	return value;
     },
@@ -1180,12 +1185,12 @@ Ext.define('PVE.Utils', { utilities: {
 		PVE.Utils.openSpiceViewer(url, params);
 	    }
 	} else {
-	    throw "unknown viewer type";
+	    throw "unknown viewer type";  //浏览器
 	}
     },
 
     defaultViewer: function(consoles) {
-
+	//spice是由Qumranet开发的开源网络协议，提供与虚拟桌面设备的远程交互实现,主要应用在桌面虚拟化,支持图像,2D传输,720P视频播放
 	var allowSpice, allowXtermjs;
 
 	if (consoles === true) {
@@ -1193,6 +1198,7 @@ Ext.define('PVE.Utils', { utilities: {
 	    allowXtermjs = true;
 	} else if (typeof consoles === 'object') {
 	    allowSpice = consoles.spice;
+		// !!这种用法经常是作为将非布尔型变量转为对应的布尔值，为false，null/undifined/0/”
 	    allowXtermjs = !!consoles.xtermjs;
 	}
 	var vncdefault = 'html5';
@@ -1207,8 +1213,8 @@ Ext.define('PVE.Utils', { utilities: {
     openVNCViewer: function(vmtype, vmid, nodename, vmname) {
 	var url = Ext.urlEncode({
 	    console: vmtype, // kvm, lxc, upgrade or shell
-	    novnc: 1,
-	    vmid: vmid,
+	    novnc: 1, //版本切换
+	    vmid: vmid, 
 	    vmname: vmname,
 	    node: nodename,
 	    resize: 'off'
@@ -1221,25 +1227,40 @@ Ext.define('PVE.Utils', { utilities: {
 
 	var downloadWithName = function(uri, name) {
 	    var link = Ext.DomHelper.append(document.body, {
-		tag: 'a',
+		tag: 'a', //a 标签
 		href: uri,
 		css : 'display:none;visibility:hidden;height:0px;'
 	    });
 
 	    // Note: we need to tell android the correct file name extension
+		//注意:我们需要告诉android正确的文件扩展名
 	    // but we do not set 'download' tag for other environments, because
 	    // It can have strange side effects (additional user prompt on firefox)
+		//但是我们没有为其他环境设置“download”标签，因为他会有奇怪的副作用（firefox上的附加用户提示符）
 	    var andriod = navigator.userAgent.match(/Android/i) ? true : false;
-	    if (andriod) {
+	  
+	   if (andriod) {
 		link.download = name;
 	    }
-
+        //添加点击事件onclick
 	    if (link.fireEvent) {
-		link.fireEvent('onclick');
+		link.fireEvent('onclick'); 
 	    } else {
                 var evt = document.createEvent("MouseEvents");
                 evt.initMouseEvent('click', true, true, window, 1, 0, 0, 0, 0, false, false, false, false, 0, null);
-		link.dispatchEvent(evt);
+		/*
+		  'click' 指定事件类型
+		  ‘true’ 指定事件是否可以bubble
+		  'true' 指定是否可以阻止事件的默认是操作
+		  'window' 指定事件的abstractView
+		  '1' 指定鼠标单击量
+		  '0 0 0 0'指事件屏幕的x、y坐标，事件的客户机x、y坐标
+		  'false' 在事件期间按下control键
+		  'false false false' alt键、shift键、meta键
+		  '0' 指定事件的鼠标按键
+		  'null' 指定事件相关的EventTarget。
+		*/
+		link.dispatchEvent(evt);//dispatch派遣
 	    }
 	};
 
@@ -1248,6 +1269,7 @@ Ext.define('PVE.Utils', { utilities: {
 	    params: params,
 	    method: 'POST',
 	    failure: function(response, opts){
+		//提示消息框
 		Ext.Msg.alert('Error', response.htmlStatus);
 	    },
 	    success: function(response, opts){
@@ -1275,12 +1297,15 @@ Ext.define('PVE.Utils', { utilities: {
 		    Ext.Msg.alert('Error', response.htmlStatus);
 		},
 		success: function(response, opts) {
+			//allowSpice 允许远程桌面访问
+			// !!将非布尔变量转换成对应的布尔值
 		    var allowSpice = !!response.result.data.spice;
 		    PVE.Utils.openDefaultConsoleWindow(allowSpice, 'kvm', vmid, nodename, vmname);
 		}
 	    });
 	} else if (record.data.type === 'lxc' && !record.data.template) {
-	    PVE.Utils.openDefaultConsoleWindow(true, 'lxc', vmid, nodename, vmname);
+		//(allowSpice, vmtype, vmid, nodename, vmname) 
+	   PVE.Utils.openDefaultConsoleWindow(true, 'lxc', vmid, nodename, vmname);
 	}
     },
 
@@ -1331,6 +1356,7 @@ Ext.define('PVE.Utils', { utilities: {
     },
 
     // helper for deleting field which are set to there default values
+	//帮助删除设置为默认值的字段
     delete_if_default: function(values, fieldname, default_val, create) {
 	if (values[fieldname] === '' || values[fieldname] === default_val) {
 	    if (!create) {
@@ -1355,7 +1381,7 @@ Ext.define('PVE.Utils', { utilities: {
 	    return;
 	}
 	/*global
-	  FileReader
+	  FileReader 文件读取
 	*/
 	var reader = new FileReader();
 	reader.onload = function(evt) {
@@ -1363,11 +1389,12 @@ Ext.define('PVE.Utils', { utilities: {
 	};
 	reader.readAsText(file);
     },
-
+	//硬盘驱动器 、固态、硬盘、 I/O 半虚拟化
     bus_counts: { ide: 4, sata: 6, scsi: 16, virtio: 16 },
 
     // types is either undefined (all busses), an array of busses, or a single bus
-    forEachBus: function(types, func) {
+	//类型要么是未定义的(所有总线)，要么是总线数组，要么是单个总线
+   forEachBus: function(types, func) {
 	var busses = Object.keys(PVE.Utils.bus_counts);
 	var i, j, count, cont;
 
@@ -1422,23 +1449,24 @@ Ext.define('PVE.Utils', { utilities: {
     singleton: true,
     constructor: function() {
 	var me = this;
-	Ext.apply(me, me.utilities);
+	Ext.apply(me, me.utilities); //untilities实用程序
     }
 
 });
 
-// ExtJS related things
+// ExtJS related things 相关的东西
 
 Proxmox.Utils.toolkit = 'extjs';
 
-// custom PVE specific VTypes
+// custom PVE specific VTypes 自定义PVE特定的vtype
 Ext.apply(Ext.form.field.VTypes, {
-
+//进行日期匹配
     QemuStartDate: function(v) {
 	return (/^(now|\d{4}-\d{1,2}-\d{1,2}(T\d{1,2}:\d{1,2}:\d{1,2})?)$/).test(v);
     },
     QemuStartDateText: gettext('Format') + ': "now" or "2006-06-17T16:01:21" or "2006-06-17"',
-    IP64AddressList: function(v) {
+//进行地址匹配   
+   IP64AddressList: function(v) {
 	var list = v.split(/[\ \,\;]+/);
 	var i;
 	for (i = 0; i < list.length; i++) {
@@ -1465,8 +1493,8 @@ Ext.define('PVE.form.field.Display', {
 	// `me.isCreate ? 'textfield' : 'displayfield'` cases we have.
     }
 });
-// Some configuration values are complex strings -
-// so we need parsers/generators for them.
+// Some configuration values are complex（复杂） strings -
+// so we need parsers（分析）/generators for them.
 
 Ext.define('PVE.Parser', { statics: {
 
@@ -11022,7 +11050,123 @@ Ext.define('PVE.tree.ResourceTree', {
 		iconCls: 'fa fa-server'
 	    }
 	});
+	Ext.define('PVE.node.CmdMenu', {
+    extend: 'Ext.menu.Menu',
+    xtype: 'nodeCmdMenu',
 
+    showSeparator: false,
+
+    items: [
+	{
+	    text: gettext('Create VM'),
+	    itemId: 'createvm',
+	    iconCls: 'fa fa-desktop',
+	    handler: function() {
+		var me = this.up('menu');
+		var wiz = Ext.create('PVE.qemu.CreateWizard', {
+		    nodename: me.nodename
+		});
+		wiz.show();
+	    }
+	},
+	{
+	    text: gettext('Create CT'),
+	    itemId: 'createct',
+	    iconCls: 'fa fa-cube',
+	    handler: function() {
+		var me = this.up('menu');
+		var wiz = Ext.create('PVE.lxc.CreateWizard', {
+		    nodename: me.nodename
+		});
+		wiz.show();
+	    }
+	},
+	{ xtype: 'menuseparator' },
+	{
+	    text: gettext('Bulk Start'),
+	    itemId: 'bulkstart',
+	    iconCls: 'fa fa-fw fa-play',
+	    handler: function() {
+		var me = this.up('menu');
+		var win = Ext.create('PVE.window.BulkAction', {
+		    nodename: me.nodename,
+		    title: gettext('Bulk Start'),
+		    btnText: gettext('Start'),
+		    action: 'startall'
+		});
+		win.show();
+	    }
+	},
+	{
+	    text: gettext('Bulk Stop'),
+	    itemId: 'bulkstop',
+	    iconCls: 'fa fa-fw fa-stop',
+	    handler: function() {
+		var me = this.up('menu');
+		var win = Ext.create('PVE.window.BulkAction', {
+		    nodename: me.nodename,
+		    title: gettext('Bulk Stop'),
+		    btnText: gettext('Stop'),
+		    action: 'stopall'
+		});
+		win.show();
+	    }
+	},
+	{
+	    text: gettext('Bulk Migrate'),
+	    itemId: 'bulkmigrate',
+	    iconCls: 'fa fa-fw fa-send-o',
+	    handler: function() {
+		var me = this.up('menu');
+		var win = Ext.create('PVE.window.BulkAction', {
+		    nodename: me.nodename,
+		    title: gettext('Bulk Migrate'),
+		    btnText: gettext('Migrate'),
+		    action: 'migrateall'
+		});
+		win.show();
+	    }
+	},
+	{ xtype: 'menuseparator' },
+	{
+	    text: gettext('Shell'),
+	    itemId: 'shell',
+	    iconCls: 'fa fa-fw fa-terminal',
+	    handler: function() {
+		var me = this.up('menu');
+		PVE.Utils.openDefaultConsoleWindow(true, 'shell', undefined, me.nodename, undefined);
+	    }
+	}
+    ],
+
+    initComponent: function() {
+	var me = this;
+
+	if (!me.nodename) {
+	    throw 'no nodename specified';
+	}
+
+	me.title = gettext('Node') + " '" + me.nodename + "'";
+	me.callParent();
+
+	var caps = Ext.state.Manager.get('GuiCap');
+	// disable not allowed options
+	if (!caps.vms['VM.Allocate']) {
+	    me.getComponent('createct').setDisabled(true);
+	    me.getComponent('createvm').setDisabled(true);
+	}
+
+	if (!caps.nodes['Sys.PowerMgmt']) {
+	    me.getComponent('bulkstart').setDisabled(true);
+	    me.getComponent('bulkstop').setDisabled(true);
+	    me.getComponent('bulkmigrate').setDisabled(true);
+	}
+
+	if (!caps.nodes['Sys.Console']) {
+	    me.getComponent('shell').setDisabled(true);
+	}
+    }
+});
 	var stateid = 'rid';
 
 	var updateTree = function() {
@@ -20527,7 +20671,7 @@ Ext.define('PVE.qemu.HardwareView', {
     alias: ['widget.PVE.qemu.HardwareView'],
 
     onlineHelp: 'qm_virtual_machines_settings',
-
+	//渲染器是用来操作数据的一些条件
     renderKey: function(key, metaData, rec, rowIndex, colIndex, store) {
 	var me = this;
 	var rows = me.rows;
@@ -34903,6 +35047,7 @@ Ext.define('PVE.dc.Config', {
 	Ext.apply(me, {
 	    title: gettext("Datacenter"),
 	    hstateid: 'dctab'
+		
 	});
 
 	if (caps.dc['Sys.Audit']) {
