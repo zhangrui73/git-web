@@ -16145,7 +16145,8 @@ Ext.define('PVE.node.Summary', {
 	});
 
 	Ext.apply(me, {
-	    tbar: [version_btn, '->', { xtype: 'proxmoxRRDTypeSelector' } ],
+	   // tbar: [version_btn, '->', { xtype: 'proxmoxRRDTypeSelector' } ],
+	    tbar: [ '->', { xtype: 'proxmoxRRDTypeSelector' } ],
 	    items: [
 		{
 		    xtype: 'container',
