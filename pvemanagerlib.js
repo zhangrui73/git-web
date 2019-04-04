@@ -7757,7 +7757,7 @@ Ext.define('PVE.window.LoginWindow', {
 		    },
 		    success: function(f, resp){
 			view.el.unmask();
-
+            
 			var handler = view.handler || Ext.emptyFn;
 			handler.call(me, resp.result.data);
 			view.close();
@@ -7777,7 +7777,7 @@ Ext.define('PVE.window.LoginWindow', {
 		    }
 		}
 	    },
-	    'field[name=realm]': {
+	   'field[name=realm]': {
 		change: function(f, value) {
 		    var otp_field = this.lookupReference('otpField');
 		    if (f.needOTP(value)) {
@@ -7789,14 +7789,14 @@ Ext.define('PVE.window.LoginWindow', {
 		    }
 		}
 	    },
-	    'field[name=lang]': {
+	    /*'field[name=lang]': {
 		change: function(f, value) {
 		    var dt = Ext.Date.add(new Date(), Ext.Date.YEAR, 10);
 		    Ext.util.Cookies.set('PVELangCookie', value, dt);
 		    this.getView().mask(gettext('Please wait...'), 'x-mask-loading');
 		    window.location.reload();
 		}
-	    },
+	    },*/
             'button[reference=loginButton]': {
 		click: 'onLogon'
             },
@@ -7867,26 +7867,26 @@ Ext.define('PVE.window.LoginWindow', {
 		name: 'password',
 		reference: 'passwordField'
 	    },
-	    {
+	  /*  {
 		xtype: 'textfield',
 		fieldLabel: gettext('OTP'),
 		name: 'otp',
 		reference: 'otpField',
 		allowBlank: false,
 		hidden: true
-	    },
+	    },*/
 	    {
 		xtype: 'pveRealmComboBox',
 		name: 'realm'
 	    },
-	    {
+	   /* {
 		xtype: 'proxmoxLanguageSelector',
 		fieldLabel: gettext('Language'),
 		value: Ext.util.Cookies.get('PVELangCookie') || Proxmox.defaultLang || 'en',
 		name: 'lang',
 		reference: 'langField',
 		submitValue: false
-	    }
+	    }*/
 	],
 	buttons: [
 	    {
