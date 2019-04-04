@@ -19123,6 +19123,8 @@ Ext.define('PVE.qemu.MemoryInputPanel', {
 	    res['delete'] = "shares";
 	}
 */
+   // res.balloon=16;
+//res.delete="shares";
 	return res;
     },
 
@@ -19161,10 +19163,10 @@ Ext.define('PVE.qemu.MemoryInputPanel', {
 		name: 'memory',
 		value: 'abbr',
 		comboItems: [
-		['2','2*1024'],
-		['4','4*1024'],
-		['6','6*1024'],
-		['8','8*1024']
+		['2048','2048'],
+		['4096','4096'],
+		['6144','6144'],
+		['8192','8192']
 		]
 	/*	hotplug: me.hotplug,
 		listeners: {
@@ -19188,13 +19190,6 @@ Ext.define('PVE.qemu.MemoryInputPanel', {
 		name: 'balloon',
 		minValue: 1,
 		step: 32,
-		value: 'abbr',
-		comboItems: [
-		['2','2*1024'],
-		['4','4*1024'],
-		['6','6*1024'],
-		['8','8*1024']
-		]
 		fieldLabel: gettext(' Minimum memory') + ' (MiB)',
 		hotplug: me.hotplug,
 		labelWidth: labelWidth,
@@ -19285,10 +19280,10 @@ Ext.define('PVE.qemu.MemoryEdit', {
 		var data = response.result.data;
 
 		var values = {
-		    ballooning: data.balloon === 0 ? '0' : '1',
-		    shares: data.shares,
+		   // ballooning: data.balloon === 0 ? '0' : '1',
+		   // shares: data.shares,
 		    memory: data.memory || '512',
-		    balloon: data.balloon > 0 ? data.balloon : (data.memory || '512')
+		    //balloon: data.balloon > 0 ? data.balloon : (data.memory || '512')
 		};
 
 		ipanel.setValues(values);
@@ -20769,20 +20764,20 @@ Ext.define('PVE.qemu.HardwareView', {
 		    var res = '';
 
 		    var max = me.getObjectValue('memory', 512, pending);
-		    var balloon =  me.getObjectValue('balloon', undefined, pending);
-		    var shares = me.getObjectValue('shares', undefined, pending);
+		   // var balloon =  me.getObjectValue('balloon', undefined, pending);
+		   //var shares = me.getObjectValue('shares', undefined, pending);
 
 		    res  = Proxmox.Utils.format_size(max*1024*1024);
 
-		    if (balloon !== undefined && balloon > 0) {
+		   /* if (balloon !== undefined && balloon > 0) {
 			res = Proxmox.Utils.format_size(balloon*1024*1024) + "/" + res;
 
-			if (shares) {
+			 if (shares) {
 			    res += ' [shares=' + shares +']';
 			}
 		    } else if (balloon === 0) {
 			res += ' [balloon=0]';
-		    }
+		    }*/
 		    return res;
 		}
 	    },
@@ -36391,6 +36386,7 @@ Ext.define('PVE.StdWorkspace', {
 	    ]
 	});
 
+	me.callParent();
 	me.callParent();
 
 	me.updateUserInfo();
