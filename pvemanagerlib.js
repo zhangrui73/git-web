@@ -342,6 +342,7 @@ if (!Ext.isDefined(Ext.global.console)) {
 }
 console.log("Starting PVE Manager");
 
+
 Ext.Ajax.defaultHeaders = {
     'Accept': 'application/json'
 };
@@ -4219,7 +4220,7 @@ Ext.define('PVE.form.MemoryField', {
 
 	if (me.hotplug) {
 	    me.minValue = 1024;
-
+    //blur失去焦点时发生的事件
 	    me.on('blur', function(field) {
 		var value = me.getValue();
 		var res = me.computeUpDown(value);
@@ -18750,7 +18751,7 @@ Ext.define('PVE.qemu.ProcessorInputPanel', {
 	PVE.Utils.delete_if_default(values, 'cpulimit', '0', 0);
 	PVE.Utils.delete_if_default(values, 'cpuunits', '1024', 0);
 
-	// build the cpu options:
+	// build the cpu options: 
 	me.cpu.cputype = values.cputype;
 
 	var flags = [];
@@ -19093,6 +19094,8 @@ Ext.define('PVE.qemu.BootOrderEdit', {
 	});
     }
 });
+//hardware中的memory组件
+
 Ext.define('PVE.qemu.MemoryInputPanel', {
     extend: 'Proxmox.panel.InputPanel',
     alias: 'widget.pveQemuMemoryPanel',
@@ -19106,9 +19109,9 @@ Ext.define('PVE.qemu.MemoryInputPanel', {
 	var res = {};
 
 	res.memory = values.memory;
-	res.balloon = values.balloon;
+	//res.balloon = values.balloon;
 
-	if (!values.ballooning) {
+	/*if (!values.ballooning) {
 	    res.balloon = 0;
 	    res['delete'] = 'shares';
 	} else if (values.memory === values.balloon) {
@@ -19119,14 +19122,15 @@ Ext.define('PVE.qemu.MemoryInputPanel', {
 	} else {
 	    res['delete'] = "shares";
 	}
-
+*/
 	return res;
     },
 
     initComponent: function() {
 	var me = this;
 	var labelWidth = 160;
-
+	
+/*
 	me.items= [
 	    {
 		xtype: 'pveMemoryField',
@@ -19149,14 +19153,49 @@ Ext.define('PVE.qemu.MemoryInputPanel', {
 		}
 	    }
 	];
-
-	me.advancedItems= [
+*/
+	me.items= [
 	    {
-		xtype: 'pveMemoryField',
+		xtype: 'proxmoxKVComboBox',
+		fieldLabel: gettext('Memory') + ' (MiB)',
+		name: 'memory',
+		value: 'abbr',
+		comboItems: [
+		['2','2*1024'],
+		['4','4*1024'],
+		['6','6*1024'],
+		['8','8*1024']
+		]
+	/*	hotplug: me.hotplug,
+		listeners: {
+		    change: function(f, value, old) {
+			var bf = me.down('field[name=balloon]');
+			var balloon = bf.getValue();
+			bf.setMaxValue(value);
+			if (balloon === old) {
+			    bf.setValue(value);
+			}
+			bf.validate();
+		    }
+		}*/
+       }
+	];
+
+	/*me.advancedItems= [
+	    {
+		//xtype: 'pveMemoryField',
+		xtype: 'proxmoxKVComboBox',
 		name: 'balloon',
 		minValue: 1,
 		step: 32,
-		fieldLabel: gettext('Minimum memory') + ' (MiB)',
+		value: 'abbr',
+		comboItems: [
+		['2','2*1024'],
+		['4','4*1024'],
+		['6','6*1024'],
+		['8','8*1024']
+		]
+		fieldLabel: gettext(' Minimum memory') + ' (MiB)',
 		hotplug: me.hotplug,
 		labelWidth: labelWidth,
 		allowBlank: false,
@@ -19205,7 +19244,7 @@ Ext.define('PVE.qemu.MemoryInputPanel', {
 	    me.items = undefined;
 	    me.advancedColumn1 = me.advancedItems;
 	    me.advancedItems = undefined;
-	}
+	}*/
 	me.callParent();
     }
 
@@ -19234,6 +19273,7 @@ Ext.define('PVE.qemu.MemoryEdit', {
 	    subject: gettext('Memory'),
 	    items: [ ipanel ],
 	    // uncomment the following to use the async configiguration API
+		//取消下面的注释，以使用async configiguration API
 	    // backgroundDelay: 5, 
 	    width: 400
 	});
@@ -20713,7 +20753,8 @@ Ext.define('PVE.qemu.HardwareView', {
 	    throw "no VM ID specified";
 	}
 
-	var caps = Ext.state.Manager.get('GuiCap');
+	var caps = Ext.state.Manager.get('GuiCap'); 
+	//ext.state.Manager.get( String name, Object defaultValue ) : Object,返回键的值
 
 	var rows = {
 	    memory: {
