@@ -7728,6 +7728,7 @@ Ext.define('PVE.window.LoginWindow', {
 
 	    var form = this.lookupReference('loginForm');
 	    var unField = this.lookupReference('usernameField');
+		
 	    var saveunField = this.lookupReference('saveunField');
 	    var view = this.getView();
 
@@ -7789,14 +7790,15 @@ Ext.define('PVE.window.LoginWindow', {
 		    }
 		}
 	    },
-	    /*'field[name=lang]': {
+	    'field[name=lang]': {
 		change: function(f, value) {
 		    var dt = Ext.Date.add(new Date(), Ext.Date.YEAR, 10);
 		    Ext.util.Cookies.set('PVELangCookie', value, dt);
 		    this.getView().mask(gettext('Please wait...'), 'x-mask-loading');
 		    window.location.reload();
 		}
-	    },*/
+	    },
+		
             'button[reference=loginButton]': {
 		click: 'onLogon'
             },
@@ -7805,6 +7807,7 @@ Ext.define('PVE.window.LoginWindow', {
 		    var sp = Ext.state.Manager.getProvider();
 		    var checkboxField = this.lookupReference('saveunField');
 		    var unField = this.lookupReference('usernameField');
+			
 
 		    var checked = sp.get(checkboxField.getStateId());
 		    checkboxField.setValue(checked);
@@ -7867,26 +7870,26 @@ Ext.define('PVE.window.LoginWindow', {
 		name: 'password',
 		reference: 'passwordField'
 	    },
-	  /*  {
+	   {
 		xtype: 'textfield',
 		fieldLabel: gettext('OTP'),
 		name: 'otp',
 		reference: 'otpField',
 		allowBlank: false,
 		hidden: true
-	    },*/
+	    },
 	    {
 		xtype: 'pveRealmComboBox',
 		name: 'realm'
 	    },
-	   /* {
+	  {
 		xtype: 'proxmoxLanguageSelector',
 		fieldLabel: gettext('Language'),
 		value: Ext.util.Cookies.get('PVELangCookie') || Proxmox.defaultLang || 'en',
 		name: 'lang',
 		reference: 'langField',
 		submitValue: false
-	    }*/
+	    }
 	],
 	buttons: [
 	    {
@@ -16035,10 +16038,10 @@ Ext.define('PVE.node.StatusView', {
     title: gettext('CPU 温度'),
     textField: 'thermalstate',
 	renderer:function(value){
-        const c0 = value.match(/Core 0.*?\+([\d\.]+)Â/)[1];
-        const c1 = value.match(/Core 1.*?\+([\d\.]+)Â/)[1];
-        const c2 = value.match(/Core 2.*?\+([\d\.]+)Â/)[1];
-        const c3 = value.match(/Core 3.*?\+([\d\.]+)Â/)[1];
+        const c0 = value.match(/Core 0.*?\+([\d\.]+)?/)[1];
+        const c1 = value.match(/Core 1.*?\+([\d\.]+)?/)[1];
+        const c2 = value.match(/Core 2.*?\+([\d\.]+)?/)[1];
+        const c3 = value.match(/Core 3.*?\+([\d\.]+)?/)[1];
         return `Core 0: ${c0} ℃ | Core 1: ${c1} ℃ | Core 2: ${c2} ℃ | Core 3: ${c3} ℃`
 	}
     }
@@ -17426,7 +17429,7 @@ Ext.define('PVE.node.Config', {
 		});
 	    }
 	}
-
+/*
 	if (caps.nodes['Sys.Audit']) {
 	    me.items.push(
 		{
@@ -17449,7 +17452,7 @@ Ext.define('PVE.node.Config', {
 		    itemId: 'firewall-options'
 		});
 	}
-
+*/
 
 	if (caps.nodes['Sys.Audit']) {
 	    me.items.push(
@@ -25139,12 +25142,12 @@ Ext.define('PVE.lxc.NetworkView', {
 		    width: 80,
 		    dataIndex: 'bridge'
 		},
-		{
+		/*{
 		    header: gettext('Firewall'),
 		    width: 80,
 		    dataIndex: 'firewall',
 		    renderer: Proxmox.Utils.format_boolean
-		},
+		},*/
 		{
 		    header: gettext('VLAN Tag'),
 		    width: 80,
@@ -35195,8 +35198,8 @@ Ext.define('PVE.dc.Config', {
 		iconCls: 'fa fa-bolt',
 		xtype: 'pveFencingView',
 		itemId: 'ha-fencing'
-	    },
-	    {
+	    }
+	   /* {
 		xtype: 'pveFirewallRules',
 		title: gettext('Firewall'),
 		allow_iface: true,
@@ -35244,7 +35247,8 @@ Ext.define('PVE.dc.Config', {
 		title: gettext('Support'),
 		itemId: 'support',
 		iconCls: 'fa fa-comments-o'
-	    });
+	    }*/
+		);
 	}
 
 	me.callParent();
